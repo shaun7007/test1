@@ -66,6 +66,20 @@ namespace DMI.XIP.wAPI.Common
             traceTelemetry.Properties.Add("@StackTrace", e.StackTrace);
             telemetry.TrackTrace(traceTelemetry);
         }
+        
+        
+          public static void ADDLogs(string callingFunction, string message)
+        {
+            //Store log in Application insight
+            var telemetry = new Microsoft.ApplicationInsights.TelemetryClient();
+            TraceTelemetry traceTelemetry = new TraceTelemetry();
+            traceTelemetry.Message = message;
+            traceTelemetry.SeverityLevel = SeverityLevel.Information;
+            traceTelemetry.Timestamp = DateTime.Now;
+            traceTelemetry.Properties.Add("@Application", callingFunction);
+            telemetry.TrackTrace(traceTelemetry);
+
+        }
 
     }
 }
