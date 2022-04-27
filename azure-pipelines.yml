@@ -10,6 +10,26 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+- task: InvokeRESTAPI@1
+  inputs:
+    connectionType: 'connectedServiceName'
+    method: 'POST'
+    headers: |
+      {
+      "Content-Type":"application/json", 
+      }
+    body: |
+      {
+        "payload": {
+          "summary": "pipe line failed",
+          "severity": "critical",
+          "source": "prod-datapipe03.example.com"
+        },
+        "routing_key": "41e2f33be96a4a00c092b3d0f2c5e0c8",
+        "event_action": "trigger"
+      }
+    urlSuffix: 'https://events.pagerduty.com/v2/enqueue'
+    waitForCompletion: 'false'
 - task: NodeTool@0
   inputs:
     versionSpec: '10.x'
